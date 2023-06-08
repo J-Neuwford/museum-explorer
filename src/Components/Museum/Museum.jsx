@@ -1,6 +1,7 @@
 import React, { useRef, useEffect} from 'react';
 import './Museum.css';
 import Player from '../Player/Player';
+import Exhibit from '../Exhibit/Exhibit';
 
 const Museum = () => {
   const museumRef = useRef(null);
@@ -20,6 +21,7 @@ const Museum = () => {
   return(
     <div ref={museumRef} className="museum">
     Museum
+      <Exhibit/>
       <Player/>
     </div>)
 }
