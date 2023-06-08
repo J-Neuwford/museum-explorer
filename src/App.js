@@ -1,9 +1,13 @@
 import './App.css';
+import Museum from './Components/Museum/Museum'
 import Player from './Components/Player/Player'
 
 function App() {
   return (
-    <Player/>
+    <div>
+      <Museum/>
+    </div>
+
   );
 }
 
