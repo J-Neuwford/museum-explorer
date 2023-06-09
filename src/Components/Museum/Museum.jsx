@@ -5,24 +5,16 @@ import Exhibit from '../Exhibit/Exhibit';
 
 const Museum = () => {
   const museumRef = useRef(null);
-
-  useEffect(() => {
-    const m = museumRef.current
-    const {x, y, width, height} = m.getBoundingClientRect();
-
-    console.log('x: ', x)
-    console.log('y: ', y)
-    console.log('width: ', width)
-    console.log('height', height)
-
-
-  }, [])
+  const playerRef = useRef(null);
 
   return(
     <div ref={museumRef} className="museum">
     Museum
       <Exhibit/>
-      <Player/>
+      <Player
+        museumRef={museumRef}
+        playerRef={playerRef}
+      />
     </div>)
 }
 
