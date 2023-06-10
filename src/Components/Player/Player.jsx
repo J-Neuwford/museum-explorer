@@ -2,9 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Player.css';
 
 const Player = (props) => {
-  const [playerPosition, setPlayerPosition] = useState({x: 0, y: 0})
+  const [playerPosition, setPlayerPosition] = useState({x: 46, y: 85})
   const [pressedKeys, setPressedKeys] = useState([]);
-  const moveSpeed = 5;
+  const [northCollision, setNorthCollision] = useState(false);
+  const [eastCollision, setEastCollision] = useState(false);
+  const [southCollision, setSouthCollision] = useState(false);
+  const [westCollision, setWestCollision] = useState(false);
+  const playerSize = 1 * props.globalScale;
 
   const handleKeyDown = (event) => {
     const key = event.key.toLowerCase();
@@ -34,43 +38,42 @@ const Player = (props) => {
     let y = playerPosition.y;
 
     const movePlayer = () => {
-      if (pressedKeys.includes('w')) {
-        y -= moveSpeed;
+      if (pressedKeys.includes('w') ) {
+        y -= 1;
       }
-      if (pressedKeys.includes('a')) {
-        x -= moveSpeed;
+      if (pressedKeys.includes('a') && !westCollision) {
+        x -= 0.5;
       }
-      if (pressedKeys.includes('s')) {
-        y += moveSpeed;
+      if (pressedKeys.includes('s') && !southCollision) {
+        y += 1;
       }
-      if (pressedKeys.includes('d')) {
-        x += moveSpeed;
+      if (pressedKeys.includes('d') && !eastCollision) {
+        x += 0.5;
       }
 
-      // ==== COLLISION ====
+      // ==== MUSEUM BOUNDARIES ====
+
       const m = props.museumRef.current;
-      const {x: mXPos, y: mYPos, width: mWidth, height: mHeight} = m.getBoundingClientRect();
+      const {x: mXPos, y: mYPos, width: mWidth, height: mHeight, top: mTop} = m.getBoundingClientRect();
 
       const p = props.playerRef.current;
-      const {x: pXPos, y: pYPos, width: pWidth, height: pHeight} = p.getBoundingClientRect();
+      let {x: pXPos, y: pYPos, width: pWidth, height: pHeight} = p.getBoundingClientRect();
 
-      console.log("museum left wall: ", mXPos)
-      console.log("player left side: ", pXPos)
+      // props.setMuseumPosition({x: mXPos, y: mYPos})
+      x = Math.min(Math.max(x, 0), 100 - playerSize)
+      y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
 
-      if(pXPos <= mXPos){ 
-        console.log("WEST WALL COLLISION!")
-      } else if (pYPos <= mYPos) {
-        console.log("NORTH WALL COLLISION!")
-      } else if ( pXPos + pWidth >= mXPos + mWidth) {
-        console.log("EAST WALL COLLISION!")
-      } else if ( pYPos + pHeight >= mYPos + mHeight) {
-        console.log("SOUTH WALL COLLISION!")
-      }
-      // ==== COLLISION END ====
+      console.log("x", x)
+      console.log("y", y)
+
+      console.log("pixel width: ", mWidth * 0.07)
+      console.log("player size: ", pWidth)
+ 
+      // ==== MUSEUM BOUNDARIES END ====
+
       setPlayerPosition({ x: x, y: y });
       animationFrameId = requestAnimationFrame(movePlayer);
     };
-
     if (pressedKeys.length > 0) {
       animationFrameId = requestAnimationFrame(movePlayer);
     }
@@ -85,7 +88,10 @@ const Player = (props) => {
       className="player"
       ref={props.playerRef}
       style={{
-        transform: `translate(${playerPosition.x}px, ${playerPosition.y}px)`,
+        width: `${playerSize}%`,
+        paddingBottom: `${playerSize}%`,
+        top: `${playerPosition.y}%`,
+        left: `${playerPosition.x}%`
       }}
     >
       Player
@@ -94,3 +100,29 @@ const Player = (props) => {
 };
 
 export default Player;
+
+
+      // const m = props.museumRef.current;
+      // const {x: mXPos, y: mYPos, width: mWidth, height: mHeight, top: mTop} = m.getBoundingClientRect();
+
+      // const p = props.playerRef.current;
+      // let {x: pXPos, y: pYPos, width: pWidth, height: pHeight} = p.getBoundingClientRect();
+
+      // props.setMuseumPosition({x: mXPos, y: mYPos})
+
+      // if(pXPos <= mXPos){ 
+      //   setWestCollision(true)
+      //   console.log("WEST WALL COLLISION!")
+      // } else if (pYPos <= mYPos) {
+      //   setNorthCollision(true)
+      //   console.log("NORTH WALL COLLISION!")
+      // } else if ( pXPos + pWidth >= mXPos + mWidth) {
+      //   console.log("EAST WALL COLLISION!")
+      // } else if ( pYPos + pHeight >= mYPos + mHeight) {
+      //   console.log("SOUTH WALL COLLISION!")
+      // } else {
+      //     setNorthCollision(false)
+      //     setEastCollision(false)
+      //     setSouthCollision(false)
+      //     setWestCollision(false)
+      //   }
