@@ -2,24 +2,21 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Player.css';
 
 const Player = (props) => {
-  const [playerPosition, setPlayerPosition] = useState({x: 46, y: 85})
-  const [pressedKeys, setPressedKeys] = useState([]);
-  const [northCollision, setNorthCollision] = useState(false);
-  const [eastCollision, setEastCollision] = useState(false);
-  const [southCollision, setSouthCollision] = useState(false);
-  const [westCollision, setWestCollision] = useState(false);
-  const playerSize = 1 * props.globalScale;
+  
+  const playerSize = 7;
+  const moveSpeed = 2;
 
+  // ==== Player INPUT =====
   const handleKeyDown = (event) => {
     const key = event.key.toLowerCase();
-    if (!pressedKeys.includes(key)) {
-      setPressedKeys((prevKeys) => [...prevKeys, key]);
+    if (!props.pressedKeys.includes(key)) {
+      props.setPressedKeys((prevKeys) => [...prevKeys, key]);
     }
   };
 
   const handleKeyUp = (event) => {
     const key = event.key.toLowerCase();
-    setPressedKeys((prevKeys) => prevKeys.filter((k) => k !== key));
+    props.setPressedKeys((prevKeys) => prevKeys.filter((k) => k !== key));
   };
 
   useEffect(() => {
@@ -32,56 +29,80 @@ const Player = (props) => {
     };
   }, []);
 
+  // ==== PLAYER MOVEMENT ====
   useEffect(() => {
     let animationFrameId = null;
-    let x = playerPosition.x;
-    let y = playerPosition.y;
+    let x = props.playerPosition.x;
+    let y = props.playerPosition.y;
 
     const movePlayer = () => {
-      if (pressedKeys.includes('w') ) {
-        y -= 1;
+      if (props.pressedKeys.includes('w') ) {
+        y -= moveSpeed;
       }
-      if (pressedKeys.includes('a') && !westCollision) {
-        x -= 0.5;
+      if (props.pressedKeys.includes('a')) {
+        x -= moveSpeed / 2;
       }
-      if (pressedKeys.includes('s') && !southCollision) {
-        y += 1;
+      if (props.pressedKeys.includes('s')) {
+        y += moveSpeed;
       }
-      if (pressedKeys.includes('d') && !eastCollision) {
-        x += 0.5;
+      if (props.pressedKeys.includes('d')) {
+        x += moveSpeed / 2;
       }
 
-      // ==== MUSEUM BOUNDARIES ====
-
-      const m = props.museumRef.current;
-      const {x: mXPos, y: mYPos, width: mWidth, height: mHeight, top: mTop} = m.getBoundingClientRect();
-
+      // ==== COLLISION ====
       const p = props.playerRef.current;
-      let {x: pXPos, y: pYPos, width: pWidth, height: pHeight} = p.getBoundingClientRect();
+      let {x: playerX, y: playerY, width: playerWidth} = p.getBoundingClientRect();
 
-      // props.setMuseumPosition({x: mXPos, y: mYPos})
-      x = Math.min(Math.max(x, 0), 100 - playerSize)
-      y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
+      const e = props.exhibitRef.current;
+      let {x: exhibitX, y: exhibitY, width: exhibitWidth} = e.getBoundingClientRect();
 
-      console.log("x", x)
-      console.log("y", y)
+      if( // player right-side
+        playerY < exhibitY + exhibitWidth && 
+        playerY + playerWidth > exhibitY &&  
+        playerX < exhibitX
+      ) {
+        x = Math.min(Math.max(x, 0), 45 - playerSize)
+        y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
+      } else if ( // player left-side
+        playerY < exhibitY + exhibitWidth && 
+        playerY + playerWidth > exhibitY &&
+        playerX > exhibitX
+      ) {
+        x = Math.min(Math.max(x, 55), 100 - playerSize)
+        y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
+      } else if ( // player top-side
+        playerY  < exhibitY &&
+        playerX + playerWidth > exhibitX &&
+        playerX < exhibitX + exhibitWidth
+      ){
+        x = Math.min(Math.max(x, 0), 100 - playerSize)
+        y = Math.min(Math.max(y, 0), 26)
 
-      console.log("pixel width: ", mWidth * 0.07)
-      console.log("player size: ", pWidth)
- 
-      // ==== MUSEUM BOUNDARIES END ====
+      } else if ( // player bottom-side
+        playerY  > exhibitY &&
+        playerX + playerWidth > exhibitX &&
+        playerX < exhibitX + exhibitWidth
+      ){
+        x = Math.min(Math.max(x, 0), 100 - playerSize)
+        y = Math.min(Math.max(y, 60), 100 - playerSize * 2)
+      }
+      else { // MUSEUM BOUNDARIES
+        x = Math.min(Math.max(x, 0), 100 - playerSize)
+        y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
+      }
 
-      setPlayerPosition({ x: x, y: y });
+      // ==== UPDATE PLAYER LOCATION ====
+      props.setPlayerPosition({ x: x, y: y });
       animationFrameId = requestAnimationFrame(movePlayer);
     };
-    if (pressedKeys.length > 0) {
+    if (props.pressedKeys.length > 0) {
       animationFrameId = requestAnimationFrame(movePlayer);
     }
 
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, [pressedKeys]);
+  }, [props.pressedKeys]);
 
   return (
     <div
@@ -90,39 +111,11 @@ const Player = (props) => {
       style={{
         width: `${playerSize}%`,
         paddingBottom: `${playerSize}%`,
-        top: `${playerPosition.y}%`,
-        left: `${playerPosition.x}%`
-      }}
-    >
-      Player
+        top: `${props.playerPosition.y}%`,
+        left: `${props.playerPosition.x}%`
+      }}>
     </div>
   );
 };
 
 export default Player;
-
-
-      // const m = props.museumRef.current;
-      // const {x: mXPos, y: mYPos, width: mWidth, height: mHeight, top: mTop} = m.getBoundingClientRect();
-
-      // const p = props.playerRef.current;
-      // let {x: pXPos, y: pYPos, width: pWidth, height: pHeight} = p.getBoundingClientRect();
-
-      // props.setMuseumPosition({x: mXPos, y: mYPos})
-
-      // if(pXPos <= mXPos){ 
-      //   setWestCollision(true)
-      //   console.log("WEST WALL COLLISION!")
-      // } else if (pYPos <= mYPos) {
-      //   setNorthCollision(true)
-      //   console.log("NORTH WALL COLLISION!")
-      // } else if ( pXPos + pWidth >= mXPos + mWidth) {
-      //   console.log("EAST WALL COLLISION!")
-      // } else if ( pYPos + pHeight >= mYPos + mHeight) {
-      //   console.log("SOUTH WALL COLLISION!")
-      // } else {
-      //     setNorthCollision(false)
-      //     setEastCollision(false)
-      //     setSouthCollision(false)
-      //     setWestCollision(false)
-      //   }

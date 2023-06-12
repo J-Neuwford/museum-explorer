@@ -1,24 +1,32 @@
-import React, { useRef, useState} from 'react';
+import React, { useRef, useState, useEffect} from 'react';
 import './Museum.css';
 import Player from '../Player/Player';
 import Exhibit from '../Exhibit/Exhibit';
 
 const Museum = () => {
-  const[museumPosition, setMuseumPosition] = useState({x: null, y: null})
-  const museumRef = useRef(null);
+  const [playerPosition, setPlayerPosition] = useState({x: 46, y: 85})
+  const [pressedKeys, setPressedKeys] = useState([]);
   const playerRef = useRef(null);
-  const [globalScale] = useState(7);
+  const exhibitRef = useRef(null);
+
+  const exhibits = [
+    {x: 45, y: 40, size: 10}
+  ]
+
 
   return(
-    <div ref={museumRef} className="museum">
-    Museum
-      <Exhibit/>
+    <div className="museum">
+      {exhibits.map((exhibit, index) => (
+        <Exhibit exhibitRef={exhibitRef} key={index} exhibit={exhibit}/>
+      ))}
+      
       <Player
-        museumRef={museumRef}
         playerRef={playerRef}
-        museumPosition={museumPosition}
-        setMuseumPosition={setMuseumPosition}
-        globalScale={globalScale}
+        exhibitRef={exhibitRef}
+        playerPosition={playerPosition}
+        setPlayerPosition={setPlayerPosition}
+        pressedKeys={pressedKeys}
+        setPressedKeys={setPressedKeys}
       />
     </div>)
 }
