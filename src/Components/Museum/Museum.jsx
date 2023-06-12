@@ -15,8 +15,11 @@ const Museum = () => {
   const moveSpeed = 2;
   const exhibitSize = 10;
   const exhibits = [
-    {x: 45, y: 10},
-    {x: 15, y: 10}
+    {x: 45, y: 5},
+    {x: 5, y: 5},
+    {x: 85, y: 5},
+    {x: 5, y: 75},
+    {x: 85, y: 75}
   ]
 
   // ==== Player INPUT =====
@@ -82,7 +85,7 @@ const Museum = () => {
       const eYPercent = ((exhibitY -  museumY) / (museumWidth / 2) * 100 );
 
       // playerX as a percentage of museumWidth
-      const pXPercent = ((playerX -  museumX) / (museumWidth) * 100 );
+      // const pXPercent = ((playerX -  museumX) / (museumWidth) * 100 );
 
       if( // player right-side
         playerY < exhibitY + exhibitWidth && 
