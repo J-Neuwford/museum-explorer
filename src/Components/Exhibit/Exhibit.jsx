@@ -8,8 +8,8 @@ const Exhibit = (props) => {
       style={{
         left: `${props.exhibit.x}%`,
         top: `${props.exhibit.y}%`,
-        width: `${props.exhibit.size}%`,
-        paddingBottom: `${props.exhibit.size}%`
+        width: `${props.exhibitSize}%`,
+        paddingBottom: `${props.exhibitSize}%`
       }}>
     </div>)
 }
