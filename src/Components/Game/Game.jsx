@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Museum from '../Museum/Museum';
+import Player from '../Player/Player';
 
 
 const Game = () => {
@@ -84,13 +85,17 @@ const Game = () => {
       // playerX as a percentage of museumWidth
       // const pXPercent = ((playerX -  museumX) / (museumWidth) * 100 );
 
-      if( // player right-side
+      if ( // player right-side
         playerY < exhibitY + exhibitWidth && 
         playerY + playerWidth > exhibitY &&  
         playerX < exhibitX
       ) {
         x = Math.min(Math.max(x, 0), eXPercent - playerSize)
         y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
+        if( playerX + playerWidth + 4 >= exhibitX) {
+          console.log("activate display")
+        }
+        
       } else if ( // player left-side
         playerY < exhibitY + exhibitWidth && 
         playerY + playerWidth > exhibitY &&
@@ -98,6 +103,10 @@ const Game = () => {
       ) {
         x = Math.min(Math.max(x, eXPercent + exhibitSize), 100 - playerSize)
         y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
+        if (playerX < exhibitX + exhibitWidth + 4) {
+          console.log("activate display")
+        }
+
       } else if ( // player bottom-side
         playerY  < exhibitY &&
         playerX + playerWidth > exhibitX &&
@@ -105,6 +114,9 @@ const Game = () => {
       ){
         x = Math.min(Math.max(x, 0), 100 - playerSize)
         y = Math.min(Math.max(y, 0), eYPercent - playerSize * 2)
+        if (playerY + playerWidth > exhibitY - 4) {
+          console.log("activate display")
+        }
 
       } else if ( // player top-side
         playerY  > exhibitY &&
@@ -113,6 +125,10 @@ const Game = () => {
       ){
         x = Math.min(Math.max(x, 0), 100 - playerSize)
         y = Math.min(Math.max(y, eYPercent + exhibitSize *2), 100 - playerSize * 2)
+        if (playerY < exhibitY + exhibitWidth + 4) {
+          console.log("activate display")
+        }
+
       }
       else { // MUSEUM BOUNDARIES
         x = Math.min(Math.max(x, 0), 100 - playerSize)
@@ -134,13 +150,13 @@ const Game = () => {
 
   return(
     <Museum
-    museumRef={museumRef}
-    exhibits={exhibits}
-    exhibitRefs={exhibitRefs}
-    exhibitSize={exhibitSize}
-    playerRef={playerRef}
-    playerPosition={playerPosition}
-    playerSize={playerSize}
+      museumRef={museumRef}
+      exhibits={exhibits}
+      exhibitRefs={exhibitRefs}
+      exhibitSize={exhibitSize}
+      playerRef={playerRef}
+      playerPosition={playerPosition}
+      playerSize={playerSize}
     />
     )
 }
