@@ -8,14 +8,15 @@ const Museum = () => {
   const [pressedKeys, setPressedKeys] = useState([]);
 
   const playerRef = useRef(null);
-  const exhibitRef = useRef(null);
   const museumRef = useRef(null);
+  const exhibitRefs = useRef([]);
 
   const playerSize = 7;
   const moveSpeed = 2;
   const exhibitSize = 10;
   const exhibits = [
-    {x: 45, y: 40}
+    {x: 45, y: 10},
+    {x: 15, y: 10}
   ]
 
   // ==== Player INPUT =====
@@ -62,32 +63,17 @@ const Museum = () => {
         x += moveSpeed / 2;
       }
 
-      exhibits.forEach((exhibit) => { 
       // ==== COLLISION ====
       const p = playerRef.current;
       let {x: playerX, y: playerY, width: playerWidth} = p.getBoundingClientRect();
 
-      const e = exhibitRef.current;
-      let {x: exhibitX, y: exhibitY, width: exhibitWidth} = e.getBoundingClientRect();
-
+           
       const m = museumRef.current;
       let {x: museumX, y: museumY, width: museumWidth} = m.getBoundingClientRect();
 
-      console.log("=========")
-      console.log("exhibitY", exhibitY)
-      console.log("exhibitWidth: ", exhibitWidth)
-
-      console.log("museumY: ", museumY)
-      console.log("museumWidth: ", museumWidth)
-
-      console.log("playerX: ", playerX)
-      console.log("playerWidth ", playerWidth )
-
-      console.log("---------")
-      console.log("PLAYER X", Math.round ((playerX -  museumX) / (museumWidth) * 100 ))
-      console.log("PLAYER Y", Math.round ((playerY -  museumY) / (museumWidth / 2) * 100 ))
-      console.log("---------")
-      console.log("EXHIBIT Y", Math.round ((exhibitY -  museumY) / (museumWidth / 2) * 100 ))
+      exhibitRefs.current.forEach((exhibitRef) => { 
+      const e = exhibitRef;
+      let {x: exhibitX, y: exhibitY, width: exhibitWidth} = e.getBoundingClientRect();
 
       // exhibitX as a percentage of museumWidth
       const eXPercent = ((exhibitX -  museumX) / (museumWidth) * 100 );
@@ -150,13 +136,12 @@ const Museum = () => {
     <div className="museum" ref={museumRef}>
       {exhibits.map((exhibit, index) => (
         <Exhibit 
-          exhibitRef={exhibitRef} key={index} exhibit={exhibit}
+          exhibitRef={(ref) => (exhibitRefs.current[index] = ref)} key={index} exhibit={exhibit}
           exhibitSize={exhibitSize}        />
       ))}
       
       <Player
         playerRef={playerRef}
-        exhibitRef={exhibitRef}
         museumRef={museumRef}
         playerPosition={playerPosition}
         playerSize={playerSize}
