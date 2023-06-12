@@ -1,10 +1,10 @@
-//import './App.css';
-import Museum from './Components/Museum/Museum'
+
+import Game from './Components/Game/Game'
 
 function App() {
   return (
     <div className='App'>
-      <Museum/>
+      <Game/>
     </div>
   );
 }
