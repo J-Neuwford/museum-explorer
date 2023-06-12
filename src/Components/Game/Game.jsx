@@ -1,11 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Museum from '../Museum/Museum';
-import Player from '../Player/Player';
 
 
 const Game = () => {
   const [playerPosition, setPlayerPosition] = useState({x: 46, y: 85});
   const [pressedKeys, setPressedKeys] = useState([]);
+  const [displayActive, setDisplayActive] = useState(false)
 
   const playerRef = useRef(null);
   const museumRef = useRef(null);
@@ -82,9 +82,6 @@ const Game = () => {
       // exhibitY as a percentage of museumWidth/2
       const eYPercent = ((exhibitY -  museumY) / (museumWidth / 2) * 100 );
 
-      // playerX as a percentage of museumWidth
-      // const pXPercent = ((playerX -  museumX) / (museumWidth) * 100 );
-
       if ( // player right-side
         playerY < exhibitY + exhibitWidth && 
         playerY + playerWidth > exhibitY &&  
@@ -94,8 +91,11 @@ const Game = () => {
         y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
         if( playerX + playerWidth + 4 >= exhibitX) {
           console.log("activate display")
+          setDisplayActive(true);
+        } else {
+          setDisplayActive(false)
         }
-        
+
       } else if ( // player left-side
         playerY < exhibitY + exhibitWidth && 
         playerY + playerWidth > exhibitY &&
@@ -135,9 +135,10 @@ const Game = () => {
         y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
       }
     })
-      // ==== UPDATE PLAYER LOCATION ====
-      setPlayerPosition({ x: x, y: y });
-      animationFrameId = requestAnimationFrame(movePlayer);
+    
+    // ==== UPDATE PLAYER LOCATION ====
+    setPlayerPosition({ x: x, y: y });
+    animationFrameId = requestAnimationFrame(movePlayer);
     };
     if (pressedKeys.length > 0) {
       animationFrameId = requestAnimationFrame(movePlayer);

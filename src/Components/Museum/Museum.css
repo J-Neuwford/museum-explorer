@@ -1,11 +1,23 @@
 .museum {
-  background-color: blue;
+  background-color: rgb(85, 48, 23);
   position: relative;
-  top: 50%;
+  top: -41%;
   left: 50%;
   transform: translate(-50%, 50%);
   width: 100vh;
   min-width: 100vh;
   max-width: 50vw;
   height: 50vh;
+}
+
+.museum__walls{
+  background-color: rgb(43, 40, 40);
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: 105vh;
+  min-width: 105vh;
+  max-width: 55vw;
+  height: 55vh;
 }
