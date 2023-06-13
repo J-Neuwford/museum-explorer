@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Museum from '../Museum/Museum';
+import ExhibitDisplay from '../UI/ExhibitDisplay'
 
 
 const Game = () => {
@@ -89,12 +90,6 @@ const Game = () => {
       ) {
         x = Math.min(Math.max(x, 0), eXPercent - playerSize)
         y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
-        if( playerX + playerWidth + 4 >= exhibitX) {
-          console.log("activate display")
-          setDisplayActive(true);
-        } else {
-          setDisplayActive(false)
-        }
 
       } else if ( // player left-side
         playerY < exhibitY + exhibitWidth && 
@@ -103,9 +98,6 @@ const Game = () => {
       ) {
         x = Math.min(Math.max(x, eXPercent + exhibitSize), 100 - playerSize)
         y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
-        if (playerX < exhibitX + exhibitWidth + 4) {
-          console.log("activate display")
-        }
 
       } else if ( // player bottom-side
         playerY  < exhibitY &&
@@ -114,9 +106,6 @@ const Game = () => {
       ){
         x = Math.min(Math.max(x, 0), 100 - playerSize)
         y = Math.min(Math.max(y, 0), eYPercent - playerSize * 2)
-        if (playerY + playerWidth > exhibitY - 4) {
-          console.log("activate display")
-        }
 
       } else if ( // player top-side
         playerY  > exhibitY &&
@@ -125,17 +114,12 @@ const Game = () => {
       ){
         x = Math.min(Math.max(x, 0), 100 - playerSize)
         y = Math.min(Math.max(y, eYPercent + exhibitSize *2), 100 - playerSize * 2)
-        if (playerY < exhibitY + exhibitWidth + 4) {
-          console.log("activate display")
-        }
-
       }
       else { // MUSEUM BOUNDARIES
         x = Math.min(Math.max(x, 0), 100 - playerSize)
         y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
       }
     })
-    
     // ==== UPDATE PLAYER LOCATION ====
     setPlayerPosition({ x: x, y: y });
     animationFrameId = requestAnimationFrame(movePlayer);
@@ -147,9 +131,47 @@ const Game = () => {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
+
   }, [pressedKeys]);
 
+
+  // ==== DISPLAY EXHIBIT DETAILS ==== 
+  useEffect(() => {
+    const checkProximity = () => {
+      let anyExhibitInRange = false;
+
+      const p = playerRef.current;
+      const { x: playerX, y: playerY, width: playerWidth } = p.getBoundingClientRect();
+
+      exhibitRefs.current.some((exhibitRef) => {
+        const e = exhibitRef;
+        if (!e) return;
+        const { x: exhibitX, y: exhibitY, width: exhibitWidth } = e.getBoundingClientRect();
+
+        const distance = Math.sqrt(
+          Math.pow(playerX - exhibitX, 2) + Math.pow(playerY - exhibitY, 2)
+        );
+
+        const proximityThreshold = 4 + playerSize + exhibitWidth;
+
+        if (distance <= proximityThreshold) {
+          anyExhibitInRange = true;
+          return;
+        }
+      });
+
+      setDisplayActive(anyExhibitInRange);
+    };
+
+    const proximityCheckInterval = setInterval(checkProximity, 100);
+
+    return () => {
+      clearInterval(proximityCheckInterval);
+    };
+  }, [playerRef, exhibitRefs, setDisplayActive]);
+
   return(
+    <div>
     <Museum
       museumRef={museumRef}
       exhibits={exhibits}
@@ -159,6 +181,8 @@ const Game = () => {
       playerPosition={playerPosition}
       playerSize={playerSize}
     />
+      <div>{displayActive ? <ExhibitDisplay/> : null}</div>
+    </div>
     )
 }
 
