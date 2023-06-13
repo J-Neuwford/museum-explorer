@@ -12,3 +12,10 @@ One of the key challenges I have faced so far is creating fluid player movement 
  - I used element style values as a percentage to move the player position rather than pixel values.
  - I used refs to get pixel data to detect collision.
  - I combined collision and movement into the same useEffect block with min/max values for boundaries, as other methods seem to create stuttering movements or update the pldayer positoin too late, making the player appear to vibrate over the exhibits (not a good look).
+
+
+## To do:
+ - integrate the V&A collections API with the exhibits
+ - normalise the player movement speed to prevent faster diagonal movement
+ - add sprites to implement the top down rpg style.
+ - review and re-design how the exhbit information is displayed.
