@@ -5,6 +5,7 @@ import axios from 'axios'
 const ExhibitDisplay = ({ exhibitId }) => {
   const [exhibitTitle, setExhibitTitle] = useState(null)
   const [exhibitImage, setExhibitImage] = useState(null)
+  const [exhibitDescription, setExhibitDescription] = useState(null)
 
   useEffect(() => {
     const getExhibit = async () => {
@@ -18,8 +19,8 @@ const ExhibitDisplay = ({ exhibitId }) => {
 
         setExhibitTitle(exhibitData.titles[0].title)
         setExhibitImage(`${imageUrl}${exhibitData.images[0]}/full/!${imageSize},${imageSize}/0/default.jpg`)
-
-        console.log(exhibitData.summaryDescription[0])
+        setExhibitDescription(exhibitData.summaryDescription)
+        //console.log(exhibitData.summaryDescription)
       } catch (error) {
         console.error('error fetching exhibit', error);
       }
@@ -33,6 +34,7 @@ const ExhibitDisplay = ({ exhibitId }) => {
     <div className="exhibit-display">
      <div>{exhibitTitle}</div>
      <img src={exhibitImage}/>
+     <div>{exhibitDescription}</div>
     </div>
   )
 }
