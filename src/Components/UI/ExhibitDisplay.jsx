@@ -26,7 +26,7 @@ const ExhibitDisplay = ({exhibits, viewedExhibit, exhibitRefs }) => {
       const exhibitNo = setExhibit();
       const url = `https://api.vam.ac.uk/v2/museumobject/${exhibitNo}`
       const imageUrl = "https://framemark.vam.ac.uk/collections/"
-      const imageSize = 120;
+      const imageSize = 500;
 
       try {
         const response = await axios.get(url);
@@ -42,6 +42,7 @@ const ExhibitDisplay = ({exhibits, viewedExhibit, exhibitRefs }) => {
         console.error('error fetching exhibit', error);
       }
     }
+    
     setExhibit();
     getExhibit();
 
@@ -49,9 +50,9 @@ const ExhibitDisplay = ({exhibits, viewedExhibit, exhibitRefs }) => {
 
   return (
     <div className="exhibit-display">
-     <div>{exhibitTitle}</div>
-     <img src={exhibitImage} alt={exhibitTitle}/>
-     {/* <div>{exhibitDescription}</div> */}
+     <h1 className="exhibit-title">{exhibitTitle}</h1>
+     <img className="exhibit-image" src={exhibitImage} alt={exhibitTitle}/>
+     <div className="exhibit-description">{exhibitDescription}</div>
     </div>
   )
 }

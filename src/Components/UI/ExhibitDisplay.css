@@ -1,9 +1,41 @@
 .exhibit-display {
-  background-color: bisque;
-  top: 2%;
-  left: 30%;
+  position: relative;
+  text-align: center;
+}
+
+.exhibit-title {
+  padding: 10px;
+  border-style: solid;
+  border-radius: 5px;
+  font-size: 1vw;
   position: absolute;
-  width: 40%;
-  height: 0%;
-  padding-bottom: 12%;
+  top: 2%;
+  left: 50%;
+  transform: translate(-50%, -50vh);
+  background-color: white;
+}
+
+.exhibit-image {
+  padding: 10px;
+  border-style: solid;
+  border-radius: 5px;
+  position: absolute;
+  left: 1%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20vw;
+  background-color: white;
+}
+
+.exhibit-description {
+  padding: 10px;
+  border-style: solid;
+  border-radius: 5px;
+  font-size: 0.8vw;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  right: 4%;
+  transform: translateY(-50%);
+  width: 15vw;
 }
