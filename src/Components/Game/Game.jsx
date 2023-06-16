@@ -19,9 +19,9 @@ const Game = () => {
   const exhibits = [
     {x: 45, y: 5, exhibitNo: 'O1427015'},
     {x: 5, y: 5, exhibitNo: 'O86211'},
-    {x: 85, y: 5, exhibitNo: 'O1458900'},
+    {x: 85, y: 5, exhibitNo: 'O71651'},
     {x: 5, y: 75, exhibitNo: 'O69349'},
-    {x: 85, y: 75, exhibitNo: 'O1171183'}
+    {x: 85, y: 75, exhibitNo: 'O1427018'}
   ]
 
   // ==== Player INPUT =====
