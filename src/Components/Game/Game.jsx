@@ -7,6 +7,7 @@ const Game = () => {
   const [playerPosition, setPlayerPosition] = useState({x: 46, y: 85});
   const [pressedKeys, setPressedKeys] = useState([]);
   const [displayActive, setDisplayActive] = useState(false)
+  const [viewedExhibit, setViewedExhibit] = useState(null)
 
   const playerRef = useRef(null);
   const museumRef = useRef(null);
@@ -16,11 +17,11 @@ const Game = () => {
   const moveSpeed = 2;
   const exhibitSize = 10;
   const exhibits = [
-    {x: 45, y: 5},
-    {x: 5, y: 5},
-    {x: 85, y: 5},
-    {x: 5, y: 75},
-    {x: 85, y: 75}
+    {x: 45, y: 5, exhibitNo: 'O1427015'},
+    {x: 5, y: 5, exhibitNo: 'O86211'},
+    {x: 85, y: 5, exhibitNo: 'O1458900'},
+    {x: 5, y: 75, exhibitNo: 'O69349'},
+    {x: 85, y: 75, exhibitNo: 'O1171183'}
   ]
 
   // ==== Player INPUT =====
@@ -139,9 +140,10 @@ const Game = () => {
   useEffect(() => {
     const checkProximity = () => {
       let anyExhibitInRange = false;
+      let exhibitInRange =  null;
 
       const p = playerRef.current;
-      const { x: playerX, y: playerY, width: playerWidth } = p.getBoundingClientRect();
+      const { x: playerX, y: playerY} = p.getBoundingClientRect();
 
       exhibitRefs.current.some((exhibitRef) => {
         const e = exhibitRef;
@@ -156,11 +158,13 @@ const Game = () => {
 
         if (distance <= proximityThreshold) {
           anyExhibitInRange = true;
+          exhibitInRange = e;
           return;
         }
       });
 
       setDisplayActive(anyExhibitInRange);
+      setViewedExhibit(exhibitInRange)
     };
 
     const proximityCheckInterval = setInterval(checkProximity, 100);
@@ -177,11 +181,17 @@ const Game = () => {
       exhibits={exhibits}
       exhibitRefs={exhibitRefs}
       exhibitSize={exhibitSize}
-      playerRef={playerRef}
+      playerRef={playerRef}S
       playerPosition={playerPosition}
       playerSize={playerSize}
     />
-      <div>{displayActive ? <ExhibitDisplay/> : null}</div>
+      <div
+      >{displayActive ? 
+        <ExhibitDisplay
+          exhibits={exhibits}
+          exhibitRefs={exhibitRefs}
+          viewedExhibit={viewedExhibit}
+        /> : null}</div>
     </div>
     )
 }
