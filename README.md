@@ -20,3 +20,12 @@ One of the key challenges I have faced so far is creating fluid player movement 
  - add sprites to implement the top down rpg style.
  - review and re-design how the exhibit information is displayed.
  - add loading message when waiting for API response.
+
+
+## Screen Shots
+
+![Alt text](image.png)
+![Alt text](image-1.png)
+![Alt text](image-2.png)
+![Alt text](image-3.png)
+
