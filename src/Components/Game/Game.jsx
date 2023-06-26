@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Museum from '../Museum/Museum';
 import ExhibitDisplay from '../UI/ExhibitDisplay'
+import grass from "../../Assets/grass.jpg"
 
 
 const Game = () => {
@@ -192,6 +193,14 @@ const Game = () => {
           exhibitRefs={exhibitRefs}
           viewedExhibit={viewedExhibit}
         /> : null}</div>
+      <img src={grass} alt="Image" 
+          width="100%" height="100%" 
+          className='grass-image'
+          style={{transform: `translate(0%, -55%)`,
+          position: `absolute`,
+          zIndex: `-1`,
+          filter: `brightness(0.15)`
+          }}  />
     </div>
     )
 }

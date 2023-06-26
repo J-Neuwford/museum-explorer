@@ -12,7 +12,7 @@
   top: 2%;
   left: 50%;
   transform: translate(-50%, -50vh);
-  background-color: rgb(237, 232, 232);
+  background-color: white;
 }
 
 .exhibit-image {
@@ -24,7 +24,7 @@
   top: 50%;
   transform: translateY(-50%);
   width: 20vw;
-  background-color: rgb(237, 232, 232);
+  background-color: white;
 }
 
 .exhibit-description {
@@ -32,7 +32,7 @@
   border-style: solid;
   border-radius: 5px;
   font-size: 0.8vw;
-  background-color: rgb(237, 232, 232);
+  background-color: white;
   position: absolute;
   top: 50%;
   right: 4%;
