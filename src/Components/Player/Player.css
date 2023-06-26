@@ -1,5 +1,6 @@
 .player {
-  background-color: rgb(219, 127, 40);
+  background-color: rgb(212, 32, 32);
+  border-radius: 10px;
   height: 0;
   position: absolute;
   top:85%; 

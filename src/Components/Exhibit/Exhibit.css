@@ -1,5 +1,7 @@
 .exhibit {
-  background-color: rgb(220, 207, 207);
+  background-color: rgb(187, 187, 187);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+  border-radius: 30px;
   height: 0;
   position: absolute;
 }

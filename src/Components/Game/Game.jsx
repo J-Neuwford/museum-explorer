@@ -17,11 +17,11 @@ const Game = () => {
   const moveSpeed = 2;
   const exhibitSize = 10;
   const exhibits = [
-    {x: 45, y: 5, exhibitNo: 'O1427015'},
-    {x: 5, y: 5, exhibitNo: 'O86211'},
-    {x: 85, y: 5, exhibitNo: 'O71651'},
-    {x: 5, y: 75, exhibitNo: 'O69349'},
-    {x: 85, y: 75, exhibitNo: 'O1427018'}
+    {x: 45, y: 5, exhibitNo: 'O1427015', rot: 0},
+    {x: 5, y: 5, exhibitNo: 'O86211', rot: -45},
+    {x: 85, y: 5, exhibitNo: 'O71651', rot: 45},
+    {x: 5, y: 75, exhibitNo: 'O69349', rot: -135},
+    {x: 85, y: 75, exhibitNo: 'O1427018', rot: 135}
   ]
 
   // ==== Player INPUT =====
