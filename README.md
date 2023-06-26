@@ -3,8 +3,8 @@
 A top down rpg style museum explorer using the V&A Collections API. The goal of this app is to further my understanding of React and CSS, and to gain more experience with third-party API integration.
 
 ## MVP 
- - User should be able to move a character and explore exhibits in a museum.
- - user should be able to view a title, image and description of the exhibit when they interact with it.
+ - User should be able to move a character and explore exhibits in a museum. - DONE
+ - user should be able to view a title, image and description of the exhibit when they interact with it. - DONE
 
 
 ## Challenges
@@ -15,7 +15,8 @@ One of the key challenges I have faced so far is creating fluid player movement 
 
 
 ## To do:
- - integrate the V&A collections API with the exhibits
+ - integrate the V&A collections API with the exhibits. - DONE
  - normalise the player movement speed to prevent faster diagonal movement
  - add sprites to implement the top down rpg style.
- - review and re-design how the exhbit information is displayed.
+ - review and re-design how the exhibit information is displayed.
+ - add loading message when waiting for API response.
