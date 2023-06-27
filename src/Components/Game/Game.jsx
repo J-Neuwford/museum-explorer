@@ -1,14 +1,14 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Museum from '../Museum/Museum';
-import ExhibitDisplay from '../UI/ExhibitDisplay'
-import grass from "../../Assets/grass.jpg"
+import ExhibitDisplay from '../UI/ExhibitDisplay';
+import grass from "../../Assets/grass.jpg";
 
 
 const Game = () => {
   const [playerPosition, setPlayerPosition] = useState({x: 46, y: 85});
   const [pressedKeys, setPressedKeys] = useState([]);
-  const [displayActive, setDisplayActive] = useState(false)
-  const [viewedExhibit, setViewedExhibit] = useState(null)
+  const [displayActive, setDisplayActive] = useState(false);
+  const [viewedExhibit, setViewedExhibit] = useState(null);
 
   const playerRef = useRef(null);
   const museumRef = useRef(null);
@@ -90,36 +90,36 @@ const Game = () => {
         playerY + playerWidth > exhibitY &&  
         playerX < exhibitX
       ) {
-        x = Math.min(Math.max(x, 0), eXPercent - playerSize)
-        y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
+        x = Math.min(Math.max(x, 0), eXPercent - playerSize);
+        y = Math.min(Math.max(y, 0), 100 - playerSize * 2);
 
       } else if ( // player left-side
         playerY < exhibitY + exhibitWidth && 
         playerY + playerWidth > exhibitY &&
         playerX > exhibitX
       ) {
-        x = Math.min(Math.max(x, eXPercent + exhibitSize), 100 - playerSize)
-        y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
+        x = Math.min(Math.max(x, eXPercent + exhibitSize), 100 - playerSize);
+        y = Math.min(Math.max(y, 0), 100 - playerSize * 2);
 
       } else if ( // player bottom-side
         playerY  < exhibitY &&
         playerX + playerWidth > exhibitX &&
         playerX < exhibitX + exhibitWidth
       ){
-        x = Math.min(Math.max(x, 0), 100 - playerSize)
-        y = Math.min(Math.max(y, 0), eYPercent - playerSize * 2)
+        x = Math.min(Math.max(x, 0), 100 - playerSize);
+        y = Math.min(Math.max(y, 0), eYPercent - playerSize * 2);
 
       } else if ( // player top-side
         playerY  > exhibitY &&
         playerX + playerWidth > exhibitX &&
         playerX < exhibitX + exhibitWidth
       ){
-        x = Math.min(Math.max(x, 0), 100 - playerSize)
-        y = Math.min(Math.max(y, eYPercent + exhibitSize *2), 100 - playerSize * 2)
+        x = Math.min(Math.max(x, 0), 100 - playerSize);
+        y = Math.min(Math.max(y, eYPercent + exhibitSize *2), 100 - playerSize * 2);
       }
       else { // MUSEUM BOUNDARIES
-        x = Math.min(Math.max(x, 0), 100 - playerSize)
-        y = Math.min(Math.max(y, 0), 100 - playerSize * 2)
+        x = Math.min(Math.max(x, 0), 100 - playerSize);
+        y = Math.min(Math.max(y, 0), 100 - playerSize * 2);
       }
     })
     // ==== UPDATE PLAYER LOCATION ====
